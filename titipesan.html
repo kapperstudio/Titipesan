@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>Titipesan — Leave something worth remembering.</title>
+  <meta name="description" content="Platform editorial untuk menitipkan pesan anonim yang personal, elegan, dan bermakna. Leave something worth remembering.">
+  <meta property="og:title" content="Titipesan — Leave something worth remembering.">
+  <meta property="og:description" content="Platform editorial untuk menitipkan pesan anonim yang personal, elegan, dan bermakna. Leave something worth remembering.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&family=Instrument+Serif:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-serif: 'Instrument Serif', Georgia, serif;
+      --font-mono: 'Space Mono', monospace;
+      --font-handwriting: 'Caveat', cursive, serif;
+
+      --bg-page: #FBF9F5;
+      --color-ink: #191817;
+      --color-ink-muted: #6B665E;
+      --color-border: #EAE4D8;
+      --color-paper-warm: #FCFAF4;
+      --color-paper-warm-border: #EAE3D5;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      background-color: var(--bg-page);
+      color: var(--color-ink);
+      font-family: var(--font-sans);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button:focus-visible,
+    input:focus-visible,
+    textarea:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #191817;
+      outline-offset: 3px;
+    }
+
+    /* Typography */
+    .font-editorial { font-family: var(--font-serif); }
+    .font-ui { font-family: var(--font-sans); }
+    .font-meta { font-family: var(--font-mono); }
+    .font-handwritten { font-family: var(--font-handwriting); }
+
+    /* Layout */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(251, 249, 245, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .header-inner {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--color-ink);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      cursor: pointer;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-ink-muted);
+    }
+    .nav-link {
+      cursor: pointer;
+      padding: 4px 0;
+      position: relative;
+      text-decoration: none;
+      color: inherit;
+      transition: color 0.15s ease;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: var(--color-ink);
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: var(--color-ink);
+    }
+
+    .btn-create {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: var(--color-ink);
+      color: #FBF9F5;
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s ease, transform 0.1s ease;
+    }
+    .btn-create:hover {
+      background: #34302C;
+    }
+    .btn-create:active {
+      transform: scale(0.98);
+    }
+
+    /* Mobile Nav */
+    .mobile-menu-btn {
+      display: none;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 6px;
+      color: var(--color-ink);
+    }
+    .mobile-drawer {
+      display: none;
+      padding: 1.25rem 1.5rem;
+      background: #FAF6EE;
+      border-bottom: 1px solid var(--color-border);
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .mobile-drawer.open {
+      display: flex;
+    }
+
+    /* Paper Grid & Rotation */
+    .paper-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2.5rem;
+    }
+    .paper-card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 1.75rem 2rem;
+      border-radius: 2px;
+      border: 1px solid #EAE3D5;
+      background: #FCFAF4;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(25, 24, 23, 0.03);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      text-decoration: none;
+      color: inherit;
+    }
+    .paper-item:nth-child(4n+1) { transform: rotate(-1.25deg); }
+    .paper-item:nth-child(4n+2) { transform: rotate(0.9deg); }
+    .paper-item:nth-child(4n+3) { transform: rotate(0.45deg); }
+    .paper-item:nth-child(4n)   { transform: rotate(-0.7deg); }
+
+    .paper-card:hover {
+      transform: translateY(-4px) rotate(0deg) !important;
+      box-shadow: 0 16px 32px -8px rgba(25, 24, 23, 0.08), 0 4px 8px -2px rgba(25, 24, 23, 0.04);
+    }
+
+    .paper-quote {
+      font-family: var(--font-handwriting);
+      font-size: 26px;
+      line-height: 1.6;
+      color: #23211F;
+      margin: 1.25rem 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    /* Modal Backdrop */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-box {
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      background: #FCFAF4;
+      border: 1px solid #EAE3D5;
+      border-radius: 2px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Bottom Sheet */
+    .sheet-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .sheet-overlay.active {
+      display: flex;
+    }
+    .sheet-box {
+      width: 100%;
+      max-width: 600px;
+      background: #FCFAF5;
+      border-top: 1px solid #E0D9CB;
+      border-left: 1px solid #E0D9CB;
+      border-right: 1px solid #E0D9CB;
+      border-radius: 16px 16px 0 0;
+      padding: 1.75rem 2rem 2.5rem;
+      box-shadow: 0 -10px 40px rgba(0,0,0,0.12);
+      transform: translateY(100%);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .sheet-overlay.active .sheet-box {
+      transform: translateY(0);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #191817;
+      color: #FAF8F5;
+      font-size: 13px;
+      font-weight: 500;
+      padding: 10px 20px;
+      border-radius: 2px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      z-index: 70;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast.active {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: auto;
+      border-top: 1px solid var(--color-border);
+      background: #F7F4EC;
+      color: #78736B;
+      padding: 3rem 0;
+      font-size: 13px;
+    }
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .paper-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-title { font-size: 40px !important; }
+      .create-grid { grid-template-columns: 1fr !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .paper-item, .paper-card, .paper-card:hover {
+        transform: none !important;
+        transition: none !important;
+      }
+      .sheet-box { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <div class="brand" onclick="navigateTo('/')" role="button" tabindex="0">Titipesan</div>
+
+      <nav class="nav-links">
+        <a class="nav-link" data-route="/" onclick="navigateTo('/')">Beranda</a>
+        <a class="nav-link" data-route="/search" onclick="navigateTo('/search')">Search</a>
+        <a class="nav-link" data-route="/history" onclick="navigateTo('/history')">History</a>
+        <a class="nav-link" data-route="/donate" onclick="navigateTo('/donate')">Donate</a>
+      </nav>
+
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <button class="btn-create" onclick="navigateTo('/create')">
+          <span>+ Buat Pesan</span>
+        </button>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Menu">☰</button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="mobile-drawer">
+      <a class="nav-link" onclick="navigateTo('/'); toggleMobileMenu();">Beranda</a>
+      <a class="nav-link" onclick="navigateTo('/search'); toggleMobileMenu();">Search</a>
+      <a class="nav-link" onclick="navigateTo('/history'); toggleMobileMenu();">History</a>
+      <a class="nav-link" onclick="navigateTo('/donate'); toggleMobileMenu();">Donate</a>
+    </div>
+  </header>
+
+  <!-- Main View Container -->
+  <main id="app-view" style="flex: 1; padding: 2.5rem 0 5rem;"></main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-inner">
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <span style="font-family: var(--font-serif); font-size: 18px; color: #191817;">Titipesan</span>
+        <span style="color: #C4BEB2;">/</span>
+        <span style="font-family: var(--font-serif); font-style: italic; color: #635F57;">“Leave something worth remembering.”</span>
+      </div>
+
+      <div style="display: flex; gap: 20px; font-weight: 500;">
+        <a style="cursor: pointer; color: inherit; text-decoration: none;" onclick="navigateTo('/about')">Tentang</a>
+        <a style="cursor: pointer; color: inherit; text-decoration: none;" onclick="navigateTo('/privacy')">Privacy</a>
+        <a style="cursor: pointer; color: inherit; text-decoration: none;" onclick="navigateTo('/support')">Support</a>
+      </div>
+
+      <div style="font-family: var(--font-mono); font-size: 11px; color: #8C877E;">
+        © 2026 Titipesan. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fullscreen Message Detail Modal -->
+  <div id="detail-modal" class="modal-overlay" onclick="closeModal()">
+    <div id="modal-box" class="modal-box" onclick="event.stopPropagation()">
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.75rem; border-bottom: 1px solid rgba(25,24,23,0.08); background: rgba(25,24,23,0.02);">
+        <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #69645C; letter-spacing: 0.05em;">Pesan yang dititipkan</span>
+        <button onclick="closeModal()" style="background: none; border: none; font-size: 20px; cursor: pointer; color: #59544C; padding: 2px 6px;">✕</button>
+      </div>
+
+      <div style="padding: 2rem 2.25rem; flex: 1;" id="modal-content">
+        <!-- Content injected dynamically -->
+      </div>
+
+      <div style="padding: 1rem 2.25rem; background: rgba(25,24,23,0.02); border-top: 1px solid rgba(25,24,23,0.08); display: flex; justify-content: space-between; align-items: center;" id="modal-actions">
+        <!-- Actions injected dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Copy Link Bottom Sheet -->
+  <div id="copy-sheet" class="sheet-overlay" onclick="closeCopySheet()">
+    <div class="sheet-box" onclick="event.stopPropagation()">
+      <div style="width: 40px; height: 4px; background: #D1C9BC; border-radius: 99px; margin: 0 auto 1.25rem;"></div>
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+        <h3 style="font-family: var(--font-serif); font-size: 26px; color: #191817;">Salin tautan.</h3>
+        <button onclick="closeCopySheet()" style="background: none; border: none; font-size: 18px; cursor: pointer; color: #78736B;">✕</button>
+      </div>
+      <p style="font-size: 13.5px; color: #69645C; margin-bottom: 1.25rem;">
+        Bagikan pesan ini tanpa perlu menjelaskan siapa pengirimnya.
+      </p>
+      <div style="margin-bottom: 1.5rem; padding: 10px 14px; background: #F2EDE2; border: 1px solid #DDD5C5; border-radius: 2px;">
+        <input id="sheet-url-input" type="text" readonly style="width: 100%; background: none; border: none; outline: none; font-family: var(--font-mono); font-size: 12px; color: #2D2A26;" onfocus="this.select()">
+      </div>
+      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+        <button onclick="closeCopySheet()" style="padding: 8px 16px; background: none; border: none; font-size: 13px; color: #69645C; cursor: pointer;">Batal</button>
+        <button onclick="executeCopyFromSheet()" style="padding: 9px 20px; background: #191817; color: #FBF9F5; border: none; font-size: 13px; font-weight: 500; border-radius: 2px; cursor: pointer;">Salin tautan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">Tautan berhasil disalin.</div>
+
+  <script>
+    // --- Security Helpers ---
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+    function escapeAttr(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    }
+
+    // --- Audio Manager ---
+    let globalAudio = null;
+    let currentPreviewUrl = null;
+    let isAudioPlaying = false;
+
+    function playPreview(url) {
+      if (!url) return;
+      if (globalAudio && currentPreviewUrl === url) {
+        if (isAudioPlaying) {
+          globalAudio.pause();
+          isAudioPlaying = false;
+        } else {
+          globalAudio.play().then(() => { isAudioPlaying = true; updateAudioUI(); }).catch(() => {});
+        }
+        updateAudioUI();
+        return;
+      }
+      stopPreview();
+      currentPreviewUrl = url;
+      globalAudio = new Audio(url);
+      globalAudio.addEventListener('ended', () => {
+        isAudioPlaying = false;
+        updateAudioUI();
+      });
+      globalAudio.addEventListener('error', () => {
+        isAudioPlaying = false;
+        updateAudioUI();
+      });
+      globalAudio.play().then(() => {
+        isAudioPlaying = true;
+        updateAudioUI();
+      }).catch((e) => {
+        console.warn('Autoplay prevented:', e);
+        isAudioPlaying = false;
+        updateAudioUI();
+      });
+    }
+
+    function stopPreview() {
+      if (globalAudio) {
+        globalAudio.pause();
+        globalAudio.currentTime = 0;
+        globalAudio = null;
+      }
+      currentPreviewUrl = null;
+      isAudioPlaying = false;
+      updateAudioUI();
+    }
+
+    function updateAudioUI() {
+      const btns = document.querySelectorAll('[data-audio-url]');
+      btns.forEach(btn => {
+        const u = btn.getAttribute('data-audio-url');
+        if (u === currentPreviewUrl && isAudioPlaying) {
+          btn.innerHTML = '⏸ Jeda';
+        } else {
+          btn.innerHTML = '▶ Putar';
+        }
+      });
+    }
+
+    // --- Color Palettes ---
+    const PAPERS = [
+      { id: 'Warm Paper', name: 'Warm Paper', bg: '#FCFAF4', border: '#EAE3D5' },
+      { id: 'Soft Pink', name: 'Soft Pink', bg: '#FAF1F1', border: '#EEDCDC' },
+      { id: 'Pale Blue', name: 'Pale Blue', bg: '#F1F5F8', border: '#DCE4ED' },
+      { id: 'Cream', name: 'Cream', bg: '#FDF8EC', border: '#EFE3CA' },
+      { id: 'Lavender', name: 'Lavender', bg: '#F5F1F8', border: '#E4DFEC' },
+      { id: 'Sage', name: 'Sage', bg: '#F1F6F3', border: '#DDE7E0' },
+      { id: 'Sand', name: 'Sand', bg: '#F7F3EB', border: '#E8DFD1' }
+    ];
+
+    function getPaperColor(id) {
+      return PAPERS.find(p => p.id === id) || PAPERS[0];
+    }
+
+    // --- Alias System ---
+    const ADJECTIVES = ['Quiet', 'Gentle', 'Silent', 'Distant', 'Serene', 'Amber', 'Velvet', 'Autumn', 'Midnight', 'Whispering', 'Solitary', 'Golden', 'Muted', 'Wandering', 'Tender', 'Pensive', 'Humble'];
+    const NOUNS = ['Moon', 'River', 'Breeze', 'Letter', 'Shadow', 'Orchid', 'Horizon', 'Lantern', 'Memory', 'Echo', 'Petal', 'Shore', 'Dawn', 'Dusk', 'Clover', 'Sparrow', 'Rain', 'Starlight'];
+
+    function getBrowserAlias() {
+      let stored = localStorage.getItem('titipesan_alias');
+      if (stored && stored.trim() !== '') return stored.trim();
+      const adj = ADJECTIVES[Math.floor(Math.random() * ADJECTIVES.length)];
+      const n = NOUNS[Math.floor(Math.random() * NOUNS.length)];
+      const num = Math.floor(100000 + Math.random() * 900000);
+      const created = adj + n + num;
+      localStorage.setItem('titipesan_alias', created);
+      return created;
+    }
+
+    // --- Storage & Seed Data ---
+    const SEED_DATA = [
+      {
+        id: 'tp-seed-01',
+        to: 'Rania',
+        message: 'Mungkin kita tidak akan pernah bertemu lagi di sudut kafe itu, tapi terima kasih untuk obrolan sore di bawah hujan yang tidak pernah selesai. Semoga kotamu selalu ramah padamu.',
+        color: 'Warm Paper',
+        from: 'QuietMoon482913',
+        date: '01 Okt 2026',
+        createdAt: 1790800000000,
+        song: {
+          trackName: 'Monokrom',
+          artistName: 'Tulus',
+          artworkUrl100: 'https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/bf/f9/ba/bff9ba59-7157-195b-aaee-4cb788ecab17/cover.jpg/200x200bb.jpg',
+          previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/4a/c3/81/4ac38150-fe98-8ec1-3d77-ffcbe9e034ca/mzaf_10300624867493863486.plus.aac.p.m4a'
+        }
+      },
+      {
+        id: 'tp-seed-02',
+        to: 'Bagas & Teman-teman',
+        message: 'Selamat sudah sampai di titik ini. Aku tahu betapa beratnya hari-hari kemarin. Bangga melihatmu melangkah sejauh ini meski tanpa tepuk tangan orang lain.',
+        color: 'Sage',
+        from: 'SilentRiver839201',
+        date: '28 Sep 2026',
+        createdAt: 1790500000000,
+        song: {
+          trackName: 'Rehat',
+          artistName: 'Kunto Aji',
+          artworkUrl100: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/b8/df/65/b8df6581-fe42-2d17-91f8-08ca1b9ff692/cover.jpg/200x200bb.jpg',
+          previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/7e/c9/28/7ec928f2-53b6-ae3a-4efb-fbcf3bf131bc/mzaf_16886369165215777610.plus.aac.p.m4a'
+        }
+      },
+      {
+        id: 'tp-seed-03',
+        to: 'Ayah',
+        message: 'Terima kasih sudah selalu diam-diam memastikan lampu teras menyala setiap aku pulang larut. Maaf aku jarang mengatakannya langsung.',
+        color: 'Cream',
+        from: 'AmberLantern102944',
+        date: '24 Sep 2026',
+        createdAt: 1790200000000,
+        song: {
+          trackName: 'Yang Patah Tumbuh, Yang Hilang Berganti',
+          artistName: 'Banda Neira',
+          artworkUrl100: 'https://is1-ssl.mzstatic.com/image/thumb/Music69/v4/5a/8a/a0/5a8aa0ec-c49b-7300-804b-3d607df2f5ee/cover.jpg/200x200bb.jpg',
+          previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/21/df/b6/21dfb689-53e3-7ce6-a7ee-0017bfb428d0/mzaf_6563606625841641320.plus.aac.p.m4a'
+        }
+      },
+      {
+        id: 'tp-seed-04',
+        to: 'Untuk diriku 5 tahun lalu',
+        message: 'Semua ketakutanmu tentang masa depan tidak akan membunuhmu. Kamu akan belajar tertawa lagi, dan kamu akan menemukan hal-hal yang membuatmu ingin bangun esok pagi.',
+        color: 'Lavender',
+        from: 'GentleDawn592817',
+        date: '19 Sep 2026',
+        createdAt: 1789800000000,
+        song: {
+          trackName: 'Runtuh',
+          artistName: 'Feby Putri & Fiersa Besari',
+          artworkUrl100: 'https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/b4/0f/50/b40f500e-6f81-583c-1b65-442e97ea2c2b/cover.jpg/200x200bb.jpg',
+          previewUrl: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/cf/30/84/cf308474-325d-24ec-a3aa-b2b54bc3e809/mzaf_10526768393529346513.plus.aac.p.m4a'
+        }
+      }
+    ];
+
+    function getMessages() {
+      const seeded = localStorage.getItem('titipesan_seeded_v1');
+      const raw = localStorage.getItem('titipesan');
+      if (!seeded || !raw) {
+        localStorage.setItem('titipesan', JSON.stringify(SEED_DATA));
+        localStorage.setItem('titipesan_seeded_v1', 'true');
+        return SEED_DATA;
+      }
+      try {
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : SEED_DATA;
+      } catch {
+        return SEED_DATA;
+      }
+    }
+
+    function saveMessage(msg) {
+      const current = getMessages();
+      const updated = [msg, ...current];
+      localStorage.setItem('titipesan', JSON.stringify(updated));
+
+      // Save to user history
+      let myIds = [];
+      try {
+        myIds = JSON.parse(localStorage.getItem('titipesan_my_ids') || '[]');
+      } catch {}
+      if (!myIds.includes(msg.id)) {
+        myIds.unshift(msg.id);
+        localStorage.setItem('titipesan_my_ids', JSON.stringify(myIds));
+      }
+    }
+
+    // --- Shareable Link Encoding (UTF-8 safe Base64) ---
+    function encodeShare(msg) {
+      try {
+        const payload = {
+          to: msg.to,
+          message: msg.message,
+          color: msg.color,
+          song: msg.song,
+          date: msg.date,
+          from: msg.from
+        };
+        const json = JSON.stringify(payload);
+        return btoa(encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, p1) => String.fromCharCode(parseInt(p1, 16))));
+      } catch {
+        return '';
+      }
+    }
+
+    function decodeShare(hash) {
+      if (!hash) return null;
+      try {
+        let cleaned = hash.startsWith('#') ? hash.slice(1) : hash;
+        if (cleaned.includes('=')) {
+          const parts = cleaned.split('=');
+          cleaned = parts[parts.length - 1];
+        }
+        cleaned = cleaned.trim();
+        const decoded = atob(cleaned).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join('');
+        return JSON.parse(decodeURIComponent(decoded));
+      } catch {
+        return null;
+      }
+    }
+
+    function buildShareUrl(msg) {
+      const hash = encodeShare(msg);
+      return `${window.location.origin}${window.location.pathname}#/detail#${hash}`;
+    }
+
+    // --- UI State & Navigation ---
+    let currentRoute = '/';
+    let currentActiveMessage = null;
+
+    function navigateTo(route) {
+      stopPreview();
+      closeModal();
+      currentRoute = route;
+
+      document.querySelectorAll('.nav-link').forEach(el => {
+        if (el.getAttribute('data-route') === route) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+
+      if (route === '/') {
+        window.history.pushState(null, '', window.location.pathname);
+      } else {
+        window.history.pushState(null, '', '#' + route);
+      }
+      renderRoute();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+      const d = document.getElementById('mobile-drawer');
+      d.classList.toggle('open');
+    }
+
+    function showToast(text) {
+      const t = document.getElementById('toast');
+      t.innerText = text;
+      t.classList.add('active');
+      setTimeout(() => t.classList.remove('active'), 2500);
+    }
+
+    // --- Modal Management ---
+    function openModal(msg) {
+      currentActiveMessage = msg;
+      const color = getPaperColor(msg.color);
+      const modal = document.getElementById('detail-modal');
+      const box = document.getElementById('modal-box');
+      box.style.backgroundColor = color.bg;
+      box.style.borderColor = color.border;
+
+      let songHtml = '';
+      if (msg.song) {
+        songHtml = `
+          <div style="margin: 1.5rem 0; padding: 12px 16px; background: rgba(25,24,23,0.04); border: 1px solid rgba(25,24,23,0.08); border-radius: 2px; display: flex; align-items: center; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 12px; min-width: 0;">
+              ${msg.song.artworkUrl100 ? `<img src="${escapeAttr(msg.song.artworkUrl100)}" style="width: 44px; height: 44px; border-radius: 2px; object-fit: cover;">` : '<div style="width: 44px; height: 44px; background: #E0D8CC; border-radius: 2px;"></div>'}
+              <div style="min-width: 0;">
+                <div style="font-size: 13px; font-weight: 600; color: #191817; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(msg.song.trackName)}</div>
+                <div style="font-size: 11px; color: #6B665E; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(msg.song.artistName)}</div>
+              </div>
+            </div>
+            ${msg.song.previewUrl ? `<button data-audio-url="${escapeAttr(msg.song.previewUrl)}" onclick="playPreview('${escapeAttr(msg.song.previewUrl)}')" style="padding: 6px 14px; background: #191817; color: #FBF9F5; border: none; font-size: 11px; font-weight: 500; border-radius: 2px; cursor: pointer;">▶ Putar</button>` : ''}
+          </div>
+        `;
+      }
+
+      document.getElementById('modal-content').innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 1rem; border-bottom: 1px solid rgba(25,24,23,0.08);">
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: #8C867C; letter-spacing: 0.05em;">Untuk</span>
+            <h2 style="font-family: var(--font-serif); font-size: 32px; color: #191817; margin-top: 2px;">${escapeHtml(msg.to)}</h2>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; color: #8C867C; letter-spacing: 0.05em;">Pengirim</span>
+            <div style="font-family: var(--font-mono); font-size: 12px; font-weight: 600; color: #332F2A; margin-top: 2px;">${escapeHtml(msg.from)}</div>
+          </div>
+        </div>
+
+        <div style="padding: 1.5rem 0;">
+          <blockquote class="paper-quote" style="font-size: 30px; white-space: pre-line;">“${escapeHtml(msg.message)}”</blockquote>
+        </div>
+
+        ${songHtml}
+
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid rgba(25,24,23,0.08); font-family: var(--font-mono); font-size: 11px; color: #7D786F;">
+          <span>Dititipkan pada ${escapeHtml(msg.date)}</span>
+          <span>Pesan anonim</span>
+        </div>
+      `;
+
+      document.getElementById('modal-actions').innerHTML = `
+        <button onclick="openCopySheet()" style="display: flex; align-items: center; gap: 6px; padding: 8px 16px; background: rgba(255,255,255,0.7); border: 1px solid rgba(25,24,23,0.2); border-radius: 2px; font-size: 12px; font-weight: 500; cursor: pointer; color: #191817;">
+          Salin tautan
+        </button>
+        <div style="display: flex; gap: 8px;">
+          ${msg.song && msg.song.previewUrl ? `<button onclick="playPreview('${escapeAttr(msg.song.previewUrl)}')" style="padding: 8px 14px; background: none; border: none; font-size: 12px; color: #544F47; cursor: pointer;">Musik</button>` : ''}
+          <button onclick="closeModal()" style="padding: 8px 16px; background: #191817; color: #FBF9F5; border: none; font-size: 12px; font-weight: 500; border-radius: 2px; cursor: pointer;">Tutup</button>
+        </div>
+      `;
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      updateAudioUI();
+    }
+
+    function closeModal() {
+      stopPreview();
+      const modal = document.getElementById('detail-modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+      currentActiveMessage = null;
+    }
+
+    // --- Bottom Sheet Copy ---
+    function openCopySheet() {
+      if (!currentActiveMessage) return;
+      const url = buildShareUrl(currentActiveMessage);
+      document.getElementById('sheet-url-input').value = url;
+      document.getElementById('copy-sheet').classList.add('active');
+    }
+
+    function closeCopySheet() {
+      document.getElementById('copy-sheet').classList.remove('active');
+    }
+
+    function executeCopyFromSheet() {
+      const input = document.getElementById('sheet-url-input');
+      const url = input.value;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('Tautan berhasil disalin.');
+          setTimeout(closeCopySheet, 500);
+        }).catch(() => {
+          window.prompt('Salin tautan pesan ini:', url);
+          showToast('Tautan berhasil disalin.');
+          closeCopySheet();
+        });
+      } else {
+        window.prompt('Salin tautan pesan ini:', url);
+        showToast('Tautan berhasil disalin.');
+        closeCopySheet();
+      }
+    }
+
+    // Escape listener
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        closeCopySheet();
+      }
+    });
+
+    // --- Page Views ---
+    function renderPaperCard(msg, idx) {
+      const color = getPaperColor(msg.color);
+      const padNum = String(idx + 1).padStart(2, '0');
+      const safeId = escapeAttr(msg.id);
+
+      return `
+        <article class="paper-card paper-item" onclick="openMessageById('${safeId}')" style="background-color: ${color.bg}; border-color: ${color.border};">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: #7A756D; padding-bottom: 10px; border-bottom: 1px solid rgba(25,24,23,0.06);">
+            <span style="text-transform: uppercase;">Pesan #${padNum}</span>
+            <span>${escapeHtml(msg.date)}</span>
+          </div>
+
+          <div style="flex: 1;">
+            <blockquote class="paper-quote">“${escapeHtml(msg.message)}”</blockquote>
+          </div>
+
+          ${msg.song ? `
+            <div style="margin-bottom: 12px; padding: 8px 10px; background: rgba(25,24,23,0.04); border-radius: 2px; display: flex; align-items: center; justify-content: space-between;">
+              <div style="display: flex; align-items: center; gap: 8px; min-width: 0;">
+                ${msg.song.artworkUrl100 ? `<img src="${escapeAttr(msg.song.artworkUrl100)}" style="width: 28px; height: 28px; border-radius: 2px; object-fit: cover;">` : ''}
+                <div style="min-width: 0;">
+                  <div style="font-size: 11px; font-weight: 500; color: #191817; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(msg.song.trackName)}</div>
+                  <div style="font-size: 10px; color: #78736B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHtml(msg.song.artistName)}</div>
+                </div>
+              </div>
+              <span style="font-size: 11px; font-family: var(--font-mono); color: #78736B;">Detail ↗</span>
+            </div>
+          ` : ''}
+
+          <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid rgba(25,24,23,0.06); font-size: 12px; color: #615C54;">
+            <div>
+              <span style="font-family: var(--font-mono); color: #8F8A80;">Untuk</span>
+              <span style="color: #8F8A80;">·</span>
+              <span style="font-weight: 500; color: #191817;">${escapeHtml(msg.to)}</span>
+            </div>
+            <span style="font-family: var(--font-mono); font-size: 11px; color: #78736B;">Detail ↗</span>
+          </div>
+        </article>
+      `;
+    }
+
+    function openMessageById(id) {
+      const messages = getMessages();
+      const found = messages.find(m => m.id === id);
+      if (found) openModal(found);
+    }
+
+    function renderRoute() {
+      const app = document.getElementById('app-view');
+
+      // Shared message hash check
+      const hash = window.location.hash;
+      if (hash && (hash.includes('/detail#') || hash.startsWith('#detail') || hash.length > 35)) {
+        const decoded = decodeShare(hash);
+        if (decoded) {
+          renderDetailPage(decoded);
+          return;
+        }
+      }
+
+      if (currentRoute === '/') renderHome();
+      else if (currentRoute === '/search') renderSearch();
+      else if (currentRoute === '/create') renderCreate();
+      else if (currentRoute === '/history') renderHistory();
+      else if (currentRoute === '/donate') renderDonate();
+      else if (currentRoute === '/about') renderAbout();
+      else if (currentRoute === '/privacy') renderPrivacy();
+      else if (currentRoute === '/support') renderSupport();
+      else if (currentRoute === '/detail') {
+        const msgs = getMessages();
+        renderDetailPage(msgs[0] || null);
+      }
+    }
+
+    function renderHome() {
+      const messages = getMessages();
+      const marqueeList = [...messages, ...messages, ...messages];
+      let marqueeCards = marqueeList.map((m, i) => `
+        <div class="paper-card" onclick="openMessageById('${escapeAttr(m.id)}')" style="width: 290px; flex-shrink: 0; transform: rotate(${i % 4 === 0 ? '-1.2deg' : i % 4 === 1 ? '0.9deg' : i % 4 === 2 ? '0.4deg' : '-0.7deg'});">
+          <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 10px; color: #7A756D; padding-bottom: 8px; border-bottom: 1px solid rgba(25,24,23,0.06);">
+            <span>#${String((i % messages.length) + 1).padStart(2, '0')}</span>
+            <span>${escapeHtml(m.date)}</span>
+          </div>
+          <blockquote class="paper-quote" style="font-size: 22px; max-height: 90px; overflow: hidden;">“${escapeHtml(m.message)}”</blockquote>
+          <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid rgba(25,24,23,0.06); font-size: 11px;">
+            <span>Untuk · <strong>${escapeHtml(m.to)}</strong></span>
+            <span style="color: #8C867C;">Buka ↗</span>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('app-view').innerHTML = `
+        <div class="container">
+          <div style="max-width: 820px; margin-bottom: 3.5rem;">
+            <div style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #8C867C; margin-bottom: 1rem;">
+              01 / Titipesan · Anonymous Editorial Letters
+            </div>
+            <h1 class="hero-title" style="font-family: var(--font-serif); font-size: 64px; line-height: 1.08; color: #191817; margin-bottom: 1.5rem;">
+              Titipkan sesuatu yang ingin diingat.
+            </h1>
+            <p style="font-size: 18px; color: #615C53; line-height: 1.6; max-width: 640px; margin-bottom: 2rem;">
+              Tinggalkan pesan untuk seseorang dengan nama samaran otomatis yang puitis.
+              Bebas dari riwayat identitas asli, lengkap dengan pilihan warna kertas
+              editorial dan musik yang menyuarakan rasa.
+            </p>
+            <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+              <button onclick="navigateTo('/create')" class="btn-create" style="padding: 12px 24px; font-size: 14px;">
+                Buat Pesan →
+              </button>
+              <button onclick="navigateTo('/search')" style="padding: 12px 22px; background: rgba(247,243,234,0.6); border: 1px solid #DCD5C7; border-radius: 2px; font-size: 14px; font-weight: 500; cursor: pointer; color: #302D29;">
+                Cari Pesan
+              </button>
+              <button onclick="openRandomLetter()" style="padding: 12px 18px; background: none; border: 1px solid transparent; font-size: 14px; font-weight: 500; cursor: pointer; color: #544F47;">
+                🎲 Buka Surat Acak
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marquee Section (Pesan yang sedang berlayar) -->
+        <div style="width: 100%; overflow: hidden; padding: 1.5rem 0 3rem; position: relative;">
+          <div class="container" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #EAE3D5; padding-bottom: 8px;">
+            <div>
+              <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #8C867C;">Pesan yang sedang berlayar</span>
+              <h2 style="font-family: var(--font-serif); font-size: 26px; color: #191817; margin-top: 2px;">Arsip yang mengalir tanpa henti</h2>
+            </div>
+            <a onclick="navigateTo('/search')" style="cursor: pointer; font-family: var(--font-mono); font-size: 11px; color: #615C53;">Lihat semua arsip →</a>
+          </div>
+
+          <div style="display: flex; gap: 1.5rem; width: max-content; animation: titipesan-marquee 45s linear infinite; padding: 10px 1rem;" onmouseenter="this.style.animationPlayState='paused'" onmouseleave="this.style.animationPlayState='running'">
+            ${marqueeCards}
+          </div>
+        </div>
+
+        <!-- NGL Viral Mailbox Sticker Feature -->
+        <div class="container" style="margin-top: 1rem;">
+          <div style="padding: 2rem; background: linear-gradient(135deg, #FAF5EC, #F2EADB); border: 1px solid #DDD4C3; border-radius: 2px; max-width: 820px;">
+            <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #80796E; display: block; margin-bottom: 6px;">
+              ✨ Kotak Surat Anonim Pribadi (Format NGL)
+            </span>
+            <h3 style="font-family: var(--font-serif); font-size: 28px; color: #191817; margin-bottom: 8px;">
+              Ingin tahu apa yang ingin orang sampaikan padamu?
+            </h3>
+            <p style="font-size: 13px; color: #615C53; margin-bottom: 1.5rem; line-height: 1.6;">
+              Buat tautan khusus namamu. Pasang di stiker Instagram Story atau Bio TikTok/WA. Teman-temanmu bisa mengirimkan surat rahasia berlagu kepadamu!
+            </p>
+            <div style="display: flex; gap: 10px; max-width: 500px;">
+              <input id="home-ngl-input" type="text" placeholder="Masukkan namamu (cth: Rania)..." style="flex: 1; padding: 10px 14px; background: #FFF; border: 1px solid #CFC5B4; border-radius: 2px; font-size: 13px; outline: none;">
+              <button onclick="copyNglLink()" class="btn-create" style="padding: 10px 16px; font-size: 12px;">Salin Link Story IG</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function openRandomLetter() {
+      const msgs = getMessages();
+      if (!msgs.length) return;
+      const r = msgs[Math.floor(Math.random() * msgs.length)];
+      openModal(r);
+      showToast('Membuka surat untuk ' + r.to);
+    }
+
+    function copyNglLink() {
+      const name = document.getElementById('home-ngl-input').value.trim() || 'Saya';
+      const link = window.location.origin + window.location.pathname + '#/create?to=' + encodeURIComponent(name);
+      const text = '💌 Titipkan pesan anonim dengan musik untuk ' + name + ':\n' + link;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text);
+        showToast('Link kotak surat tersalin! Siap dipasang di IG/WA.');
+      } else {
+        window.prompt('Salin link untuk IG Story:', text);
+        showToast('Link kotak surat tersalin!');
+      }
+    }
+
+    function renderSearch() {
+      const messages = getMessages();
+      window.searchAllMessages = messages;
+
+      document.getElementById('app-view').innerHTML = `
+        <div class="container">
+          <div style="max-width: 600px; margin-bottom: 2.5rem;">
+            <div style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: #8C867C; margin-bottom: 0.5rem;">
+              02 / Search
+            </div>
+            <h1 style="font-family: var(--font-serif); font-size: 52px; color: #191817; line-height: 1.1; margin-bottom: 0.5rem;">
+              Cari Pesan.
+            </h1>
+            <p style="font-family: var(--font-serif); font-style: italic; color: #706B62; font-size: 15px;">
+              Tap a paper to open
+            </p>
+          </div>
+
+          <div style="max-width: 540px; margin-bottom: 3rem;">
+            <input id="search-input" type="text" oninput="handleSearchType(this.value)" placeholder="Ketik nama penerima..." style="width: 100%; padding: 14px 18px; background: #FAF7F0; border: 1px solid #DDD5C5; border-radius: 2px; font-size: 14px; color: #191817; outline: none;">
+          </div>
+
+          <div id="search-results-grid" class="paper-grid">
+            ${messages.map((m, i) => renderPaperCard(m, i)).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function handleSearchType(query) {
+      const term = query.trim().toLowerCase();
+      const all = window.searchAllMessages || getMessages();
+      const filtered = term ? all.filter(m => m.to.toLowerCase().includes(term) || m.message.toLowerCase().includes(term)) : all;
+      const grid = document.getElementById('search-results-grid');
+      if (filtered.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; padding: 4rem 1rem; text-align: center; border: 1px dashed #DDD5C5; background: rgba(250,247,240,0.5); border-radius: 2px;">
+            <h3 style="font-family: var(--font-serif); font-size: 26px; color: #191817; margin-bottom: 6px;">Tidak ditemukan.</h3>
+            <p style="font-family: var(--font-serif); font-style: italic; color: #7A756D; font-size: 14px;">Coba kata lain.</p>
+          </div>
+        `;
+      } else {
+        grid.innerHTML = filtered.map((m, i) => renderPaperCard(m, i)).join('');
+      }
+    }
+
+    // --- Create Page Logic ---
+    let createSelectedColor = 'Warm Paper';
+    let createSelectedSong = null;
+
+    function renderCreate() {
+      const alias = getBrowserAlias();
+      createSelectedColor = 'Warm Paper';
+      createSelectedSong = null;
+
+      document.getElementById('app-view').innerHTML = `
+        <div class="container">
+          <div style="max-width: 600px; margin-bottom: 2.5rem;">
+            <span style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: #8C867C; display: block; margin-bottom: 0.5rem;">
+              Buat Pesan
+            </span>
+            <h1 style="font-family: var(--font-serif); font-size: 46px; color: #191817; line-height: 1.1; margin-bottom: 0.5rem;">
+              Tulis surat tanpa rasa ragu.
+            </h1>
+            <p style="font-size: 14px; color: #666159;">
+              Pesanmu akan terbungkus dalam lembaran kertas bertekstur lembut dan diantar hanya dengan nama samaran.
+            </p>
+          </div>
+
+          <div class="create-grid" style="display: grid; grid-template-columns: 7fr 5fr; gap: 3rem; align-items: start;">
+            <!-- Form -->
+            <form onsubmit="handleCreateSubmit(event)" style="background: #FAF7F0; padding: 2rem; border: 1px solid #E8E1D3; border-radius: 2px; display: flex; flex-direction: column; gap: 1.5rem;">
+              <div>
+                <label style="display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #544F47; margin-bottom: 8px;">
+                  Untuk siapa pesan ini? *
+                </label>
+                <input id="create-to" type="text" oninput="updateCreatePreview()" placeholder="Nama penerima" required style="width: 100%; padding: 12px 14px; background: #FCFBF7; border: 1px solid #DDD5C5; border-radius: 2px; font-size: 14px; color: #191817; outline: none;">
+              </div>
+
+              <div>
+                <label style="display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #544F47; margin-bottom: 8px;">
+                  Pilihan Kertas
+                </label>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px;">
+                  ${PAPERS.map(p => `
+                    <button type="button" onclick="selectPaperColor('${p.id}')" style="padding: 8px 10px; background: ${p.bg}; border: 1px solid ${p.border}; border-radius: 2px; font-size: 11px; font-weight: 500; text-align: left; cursor: pointer; color: #2E2B27;">
+                      ${p.name}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div>
+                <label style="display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #544F47; margin-bottom: 8px;">
+                  Pesan *
+                </label>
+                <textarea id="create-message" rows="6" oninput="updateCreatePreview()" placeholder="Tulis sesuatu yang mungkin ingin mereka baca suatu hari nanti..." required style="width: 100%; padding: 12px 14px; background: #FCFBF7; border: 1px solid #DDD5C5; border-radius: 2px; font-size: 14px; line-height: 1.6; font-family: var(--font-sans); color: #191817; outline: none; resize: vertical;"></textarea>
+              </div>
+
+              <div>
+                <label style="display: block; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #544F47; margin-bottom: 8px;">
+                  Musik (iTunes Apple Music)
+                </label>
+                <input id="music-search" type="text" oninput="debounceMusicSearch(this.value)" placeholder="Cari lagu di iTunes..." style="width: 100%; padding: 10px 12px; background: #FCFBF7; border: 1px solid #DDD5C5; border-radius: 2px; font-size: 13px; outline: none;">
+                <div id="music-results" style="margin-top: 6px; max-height: 180px; overflow-y: auto; background: #FFF; border: 1px solid #DDD5C5; border-radius: 2px; display: none;"></div>
+                <div id="selected-song-display" style="display: none; margin-top: 8px; padding: 10px; background: #FCFBF7; border: 1px solid #DDD5C5; border-radius: 2px;"></div>
+              </div>
+
+              <div style="padding-top: 0.5rem; border-top: 1px solid #E8E1D3; display: flex; justify-content: space-between; font-size: 12px; font-family: var(--font-mono); color: #706B62;">
+                <span>Nama samaran: <strong style="color: #191817;">${alias}</strong></span>
+                <span>Anonim</span>
+              </div>
+
+              <button type="submit" class="btn-create" style="padding: 14px; font-size: 14px; justify-content: center;">
+                Titipkan Pesan Ini
+              </button>
+            </form>
+
+            <!-- Realtime Preview -->
+            <div style="position: sticky; top: 100px;">
+              <div style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #8C867C; margin-bottom: 8px;">
+                Pratinjau Kertas Realtime
+              </div>
+              <div id="create-preview-card" style="padding: 2rem; border-radius: 2px; border: 1px solid #EAE3D5; background: #FCFAF4; min-height: 340px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 4px 12px rgba(25,24,23,0.04);">
+                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 11px; color: #7A756D; padding-bottom: 8px; border-bottom: 1px solid rgba(25,24,23,0.06);">
+                  <span>Pesan Baru</span>
+                  <span>Hari Ini</span>
+                </div>
+                <div style="margin: 1.5rem 0; flex: 1;">
+                  <blockquote id="preview-quote" class="paper-quote" style="font-size: 26px;">
+                    “Tulis sesuatu di samping...”
+                  </blockquote>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-top: 8px; border-top: 1px solid rgba(25,24,23,0.06); font-size: 12px; color: #666159;">
+                  <div>Untuk · <span id="preview-to" style="font-weight: 500; color: #191817;">Nama penerima</span></div>
+                  <span style="font-family: var(--font-mono); font-size: 11px; color: #8C867C;">Oleh ${alias}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function selectPaperColor(colorId) {
+      createSelectedColor = colorId;
+      const color = getPaperColor(colorId);
+      const card = document.getElementById('create-preview-card');
+      if (card) {
+        card.style.backgroundColor = color.bg;
+        card.style.borderColor = color.border;
+      }
+    }
+
+    function updateCreatePreview() {
+      const toVal = document.getElementById('create-to').value.trim();
+      const msgVal = document.getElementById('create-message').value.trim();
+      document.getElementById('preview-to').innerText = toVal || 'Nama penerima';
+      document.getElementById('preview-quote').innerText = msgVal ? `“${msgVal}”` : '“Tulis sesuatu di samping...”';
+    }
+
+    let musicDebounceTimer = null;
+    function debounceMusicSearch(query) {
+      if (musicDebounceTimer) clearTimeout(musicDebounceTimer);
+      const resContainer = document.getElementById('music-results');
+      if (!query.trim()) {
+        resContainer.style.display = 'none';
+        return;
+      }
+      musicDebounceTimer = setTimeout(async () => {
+        try {
+          const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query.trim())}&entity=song&limit=8&country=ID`);
+          const data = await res.json();
+          if (data.results && data.results.length > 0) {
+            window.lastMusicResults = data.results;
+            resContainer.innerHTML = data.results.map((song, i) => `
+              <div onclick="selectSongByIndex(${i})" style="padding: 8px 12px; border-bottom: 1px solid #EEE; display: flex; align-items: center; justify-content: space-between; cursor: pointer;">
+                <div style="font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 80%;">
+                  <strong>${escapeHtml(song.trackName)}</strong> · <span style="color: #666;">${escapeHtml(song.artistName)}</span>
+                </div>
+                <span style="font-size: 11px; color: #191817; font-weight: 500;">Pilih</span>
+              </div>
+            `).join('');
+            resContainer.style.display = 'block';
+          } else {
+            resContainer.innerHTML = '<div style="padding: 10px; font-size: 12px; color: #888; text-align: center;">Tidak ada lagu ditemukan</div>';
+            resContainer.style.display = 'block';
+          }
+        } catch {
+          resContainer.innerHTML = '<div style="padding: 10px; font-size: 12px; color: #9E3E3E; text-align: center;">Koneksi iTunes terganggu</div>';
+          resContainer.style.display = 'block';
+        }
+      }, 400);
+    }
+
+    function selectSongByIndex(i) {
+      const item = window.lastMusicResults[i];
+      createSelectedSong = {
+        trackName: item.trackName,
+        artistName: item.artistName,
+        collectionName: item.collectionName,
+        artworkUrl100: item.artworkUrl100,
+        previewUrl: item.previewUrl,
+        trackViewUrl: item.trackViewUrl
+      };
+      document.getElementById('music-results').style.display = 'none';
+      document.getElementById('music-search').value = '';
+
+      const disp = document.getElementById('selected-song-display');
+      disp.style.display = 'block';
+      disp.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-size: 12px;">
+            <strong>${escapeHtml(item.trackName)}</strong> — <span style="color: #666;">${escapeHtml(item.artistName)}</span>
+          </div>
+          <button type="button" onclick="removeSelectedSong()" style="background: none; border: none; font-size: 14px; cursor: pointer; color: #9E3E3E;">✕</button>
+        </div>
+      `;
+    }
+
+    function removeSelectedSong() {
+      createSelectedSong = null;
+      document.getElementById('selected-song-display').style.display = 'none';
+    }
+
+    function handleCreateSubmit(e) {
+      e.preventDefault();
+      const to = document.getElementById('create-to').value.trim();
+      const message = document.getElementById('create-message').value.trim();
+      if (!to || !message) return;
+
+      const d = new Date();
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+      const dateStr = `${String(d.getDate()).padStart(2, '0')} ${months[d.getMonth()]} ${d.getFullYear()}`;
+
+      const newMsg = {
+        id: 'tp-' + Date.now(),
+        to: to,
+        message: message,
+        color: createSelectedColor,
+        song: createSelectedSong,
+        from: getBrowserAlias(),
+        date: dateStr,
+        createdAt: Date.now()
+      };
+
+      saveMessage(newMsg);
+      showToast('Pesan berhasil dititipkan.');
+      openModal(newMsg);
+      navigateTo('/search');
+    }
+
+    // --- History Page ---
+    function renderHistory() {
+      const messages = getMessages();
+      let myIds = [];
+      try { myIds = JSON.parse(localStorage.getItem('titipesan_my_ids') || '[]'); } catch {}
+      const myMsgs = messages.filter(m => myIds.includes(m.id));
+
+      document.getElementById('app-view').innerHTML = `
+        <div class="container">
+          <div style="max-width: 600px; margin-bottom: 2.5rem;">
+            <div style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: #8C867C; margin-bottom: 0.5rem;">
+              03 / History
+            </div>
+            <h1 style="font-family: var(--font-serif); font-size: 52px; color: #191817; line-height: 1.1; margin-bottom: 0.5rem;">
+              Pesan yang pernah kamu buat.
+            </h1>
+            <p style="font-size: 14px; color: #666159;">
+              Daftar surat yang pernah dititipkan dari peramban ini.
+            </p>
+          </div>
+
+          ${myMsgs.length > 0 ? `
+            <div class="paper-grid">
+              ${myMsgs.map((m, i) => renderPaperCard(m, i)).join('')}
+            </div>
+          ` : `
+            <div style="padding: 4rem 1rem; text-align: center; border: 1px dashed #DDD5C5; background: rgba(250,247,240,0.5); border-radius: 2px; max-width: 500px; margin: 2rem auto;">
+              <h3 style="font-family: var(--font-serif); font-size: 26px; color: #191817; margin-bottom: 6px;">Belum ada pesan.</h3>
+              <p style="font-family: var(--font-serif); font-style: italic; color: #7A756D; font-size: 14px; margin-bottom: 1.5rem;">Kamu belum pernah menulis surat dari perangkat ini.</p>
+              <button onclick="navigateTo('/create')" class="btn-create">+ Buat Pesan</button>
+            </div>
+          `}
+        </div>
+      `;
+    }
+
+    // --- Donate Page ---
+    function renderDonate() {
+      document.getElementById('app-view').innerHTML = `
+        <div class="container" style="max-width: 800px;">
+          <div style="margin-bottom: 3rem;">
+            <div style="font-family: var(--font-mono); font-size: 12px; text-transform: uppercase; color: #8C867C; margin-bottom: 0.5rem;">
+              04 / Donate
+            </div>
+            <h1 style="font-family: var(--font-serif); font-size: 52px; color: #191817; line-height: 1.1; margin-bottom: 1rem;">
+              Bantu Titipesan tetap hidup.
+            </h1>
+            <p style="font-size: 15px; color: #615C53; line-height: 1.6;">
+              Dukunganmu langsung digunakan untuk biaya server, integrasi Apple Music API,
+              desain antarmuka, serta pemeliharaan ruang ini agar tetap bersih dan bebas iklan.
+            </p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem;">
+            <div style="padding: 1.5rem; background: #FAF7F0; border: 1px solid #E5DFD1; border-radius: 2px;">
+              <h3 style="font-family: var(--font-serif); font-size: 22px; margin-bottom: 4px;">Secangkir Kopi</h3>
+              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 600; margin-bottom: 10px;">Rp 15.000</div>
+              <p style="font-size: 12px; color: #706B62;">Menjaga desainer tetap terjaga saat mempercantik tipografi.</p>
+              <button onclick="showToast('Verifikasi QRIS sedang disiapkan.')" style="margin-top: 1.5rem; width: 100%; padding: 8px; background: #FCFAF5; border: 1px solid #D5CDBD; font-size: 12px; cursor: pointer;">Pilih Dukungan</button>
+            </div>
+            <div style="padding: 1.5rem; background: #FAF7F0; border: 1px solid #E5DFD1; border-radius: 2px;">
+              <h3 style="font-family: var(--font-serif); font-size: 22px; margin-bottom: 4px;">Kertas & Tinta</h3>
+              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 600; margin-bottom: 10px;">Rp 50.000</div>
+              <p style="font-size: 12px; color: #706B62;">Mendukung biaya operasional server dan lisensi cuplikan musik.</p>
+              <button onclick="showToast('Verifikasi QRIS sedang disiapkan.')" style="margin-top: 1.5rem; width: 100%; padding: 8px; background: #FCFAF5; border: 1px solid #D5CDBD; font-size: 12px; cursor: pointer;">Pilih Dukungan</button>
+            </div>
+            <div style="padding: 1.5rem; background: #FAF7F0; border: 1px solid #E5DFD1; border-radius: 2px;">
+              <h3 style="font-family: var(--font-serif); font-size: 22px; margin-bottom: 4px;">Pemeliharaan</h3>
+              <div style="font-family: var(--font-mono); font-size: 18px; font-weight: 600; margin-bottom: 10px;">Rp 100.000</div>
+              <p style="font-size: 12px; color: #706B62;">Menjaga Titipesan tetap mandiri dan bebas dari pelacak pihak ketiga.</p>
+              <button onclick="showToast('Verifikasi QRIS sedang disiapkan.')" style="margin-top: 1.5rem; width: 100%; padding: 8px; background: #FCFAF5; border: 1px solid #D5CDBD; font-size: 12px; cursor: pointer;">Pilih Dukungan</button>
+            </div>
+          </div>
+
+          <div style="padding: 1.25rem; background: #FAF7F0; border: 1px solid #E5DFD1; border-radius: 2px; font-size: 12px; color: #6B665E; line-height: 1.6;">
+            <strong>Catatan Kejujuran Transaksi:</strong> Kanal pembayaran otomatis sedang dalam proses integrasi merchant perbankan. Kami tidak memasang payment gateway tiruan untuk memastikan integritas penuh.
+          </div>
+        </div>
+      `;
+    }
+
+    // --- About, Privacy, Support Pages ---
+    function renderAbout() {
+      document.getElementById('app-view').innerHTML = `
+        <div class="container" style="max-width: 720px; line-height: 1.7; color: #47433B;">
+          <h1 style="font-family: var(--font-serif); font-size: 48px; color: #191817; line-height: 1.1; margin-bottom: 1rem;">
+            Tentang.
+          </h1>
+          <p style="font-family: var(--font-serif); font-style: italic; font-size: 18px; color: #635E55; margin-bottom: 2rem;">
+            Sebuah ruang kecil untuk kata-kata yang belum sempat sampai.
+          </p>
+          <p style="margin-bottom: 1.5rem;">
+            Titipesan adalah tempat seseorang menulis pesan untuk orang lain tanpa harus menampilkan identitas asli pengirim.
+            Terkadang ada perasaan, rasa terima kasih, atau permohonan maaf yang lebih jujur jika disampaikan tanpa beban nama dunia nyata.
+          </p>
+          <div style="padding: 1.5rem; background: #FAF7F0; border-left: 2px solid #191817; margin: 2rem 0;">
+            <h3 style="font-family: var(--font-serif); font-size: 22px; color: #191817; margin-bottom: 8px;">Titipesan dirancang untuk:</h3>
+            <ul style="font-size: 14px; padding-left: 1.25rem;">
+              <li>Menulis pesan anonim yang personal dan elegan</li>
+              <li>Memilih tekstur dan warna lembaran kertas yang hangat</li>
+              <li>Menambahkan cuplikan lagu sungguhan dari iTunes Apple Music</li>
+              <li>Membagikan pesan melalui tautan mandiri terenkripsi</li>
+              <li>Menggunakan nama samaran otomatis yang puitis</li>
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderPrivacy() {
+      document.getElementById('app-view').innerHTML = `
+        <div class="container" style="max-width: 720px; line-height: 1.7; color: #47433B;">
+          <h1 style="font-family: var(--font-serif); font-size: 48px; color: #191817; line-height: 1.1; margin-bottom: 1.5rem;">
+            Privacy.
+          </h1>
+          <div style="padding: 1rem 1.25rem; background: #FAF0F0; border: 1px solid #ECDADA; border-radius: 2px; color: #8A3838; font-size: 13px; margin-bottom: 2rem;">
+            <strong>Peringatan Penting:</strong> Jangan pernah memasukkan kata sandi (password), nomor identitas resmi (KTP/NIK), nomor kartu kredit, atau data sensitif rahasia ke dalam pesan Titipesan.
+          </div>
+          <p style="margin-bottom: 1.5rem;">
+            • <strong>Nama Samaran:</strong> Pengirim hanya menggunakan nama samaran otomatis (seperti QuietMoon482913). Kami tidak pernah meminta nama asli atau akun email Anda.<br>
+            • <strong>Penyimpanan Lokal:</strong> Versi peramban ini menyimpan arsip di localStorage milik perangkat Anda.<br>
+            • <strong>Tautan Berbagi:</strong> Shared link membawa isi data pesan langsung di dalam URL hash terenkripsi Base64, sehingga tautan dapat dibuka secara mandiri oleh penerima tanpa membutuhkan basis data terpusat.<br>
+            • <strong>Keamanan:</strong> Titipesan adalah ruang literatur emosional, jangan gunakan untuk transmisi data rahasia perusahaan atau informasi hukum.
+          </p>
+        </div>
+      `;
+    }
+
+    function renderSupport() {
+      document.getElementById('app-view').innerHTML = `
+        <div class="container" style="max-width: 720px; line-height: 1.7; color: #47433B;">
+          <h1 style="font-family: var(--font-serif); font-size: 48px; color: #191817; line-height: 1.1; margin-bottom: 0.5rem;">
+            Support.
+          </h1>
+          <p style="font-family: var(--font-serif); font-style: italic; font-size: 18px; color: #59554C; margin-bottom: 2rem;">
+            Kalau Titipesan berguna untukmu, bantu agar ruang ini tetap hidup.
+          </p>
+          <p style="margin-bottom: 1.5rem;">
+            Dukungan Anda membantu membiayai kelangsungan server, biaya pemeliharaan, desain antarmuka, serta perbaikan fitur secara konsisten.
+          </p>
+          <button onclick="navigateTo('/donate')" class="btn-create" style="padding: 12px 24px; font-size: 13px;">
+            Support Titipesan ↗
+          </button>
+        </div>
+      `;
+    }
+
+    function renderDetailPage(msg) {
+      if (!msg) {
+        document.getElementById('app-view').innerHTML = `
+          <div class="container" style="text-align: center; padding: 4rem 1rem;">
+            <h2 style="font-family: var(--font-serif); font-size: 32px;">Surat tidak ditemukan.</h2>
+            <p style="color: #777; margin: 1rem 0 2rem;">Tautan mungkin tidak lengkap atau rusak.</p>
+            <button onclick="navigateTo('/')" class="btn-create">Kembali ke Beranda</button>
+          </div>
+        `;
+        return;
+      }
+      currentActiveMessage = msg;
+      const color = getPaperColor(msg.color);
+
+      document.getElementById('app-view').innerHTML = `
+        <div class="container" style="max-width: 820px;">
+          <div style="margin-bottom: 1.5rem;">
+            <a onclick="navigateTo('/')" style="font-family: var(--font-mono); font-size: 12px; color: #78736B; cursor: pointer;">← Kembali ke Beranda</a>
+          </div>
+
+          <div style="padding: 3rem; background: ${color.bg}; border: 1px solid ${color.border}; border-radius: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 1.5rem; border-bottom: 1px solid rgba(25,24,23,0.08);">
+              <div>
+                <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #8C867C;">Untuk</span>
+                <h1 style="font-family: var(--font-serif); font-size: 44px; color: #191817; margin-top: 4px;">${escapeHtml(msg.to)}</h1>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: #8C867C;">Pengirim</span>
+                <div style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: #332F2A; margin-top: 4px;">${escapeHtml(msg.from)}</div>
+              </div>
+            </div>
+
+            <div style="padding: 2.5rem 0;">
+              <blockquote class="paper-quote" style="font-size: 32px; white-space: pre-line;">“${escapeHtml(msg.message)}”</blockquote>
+            </div>
+
+            ${msg.song ? `
+              <div style="margin-bottom: 2rem; padding: 16px; background: rgba(25,24,23,0.04); border: 1px solid rgba(25,24,23,0.08); border-radius: 2px; display: flex; align-items: center; justify-content: space-between;">
+                <div style="display: flex; align-items: center; gap: 14px;">
+                  ${msg.song.artworkUrl100 ? `<img src="${escapeAttr(msg.song.artworkUrl100)}" style="width: 48px; height: 48px; border-radius: 2px; object-fit: cover;">` : ''}
+                  <div>
+                    <div style="font-size: 14px; font-weight: 600; color: #191817;">${escapeHtml(msg.song.trackName)}</div>
+                    <div style="font-size: 12px; color: #6B665E;">${escapeHtml(msg.song.artistName)}</div>
+                  </div>
+                </div>
+                ${msg.song.previewUrl ? `<button data-audio-url="${escapeAttr(msg.song.previewUrl)}" onclick="playPreview('${escapeAttr(msg.song.previewUrl)}')" class="btn-create" style="padding: 8px 16px; font-size: 12px;">▶ Putar</button>` : ''}
+              </div>
+            ` : ''}
+
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 1.5rem; border-top: 1px solid rgba(25,24,23,0.08); font-family: var(--font-mono); font-size: 12px; color: #7D786F; margin-bottom: 2rem;">
+              <span>Dititipkan pada ${escapeHtml(msg.date)}</span>
+              <span>Pesan anonim tanpa identitas asli</span>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <button onclick="openCopySheet()" style="padding: 10px 18px; background: rgba(255,255,255,0.7); border: 1px solid rgba(25,24,23,0.2); border-radius: 2px; font-size: 13px; font-weight: 500; cursor: pointer;">
+                Salin tautan pesan ini
+              </button>
+              <button onclick="navigateTo('/create')" class="btn-create" style="padding: 10px 20px;">
+                Tulis Pesan Sendiri
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      updateAudioUI();
+    }
+
+    // --- Init ---
+    window.addEventListener('popstate', () => {
+      const hash = window.location.hash;
+      if (hash && (hash.startsWith('#/') || hash.startsWith('#detail'))) {
+        if (hash.startsWith('#/')) currentRoute = hash.slice(1);
+        renderRoute();
+      } else {
+        currentRoute = '/';
+        renderRoute();
+      }
+    });
+
+    // Start
+    const initialHash = window.location.hash;
+    if (initialHash.startsWith('#/')) {
+      currentRoute = initialHash.slice(1);
+    } else if (initialHash.startsWith('#detail') || initialHash.includes('/detail#')) {
+      currentRoute = '/detail';
+    }
+    renderRoute();
+  </script>
+</body>
+</html>

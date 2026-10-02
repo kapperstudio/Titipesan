@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-serif: 'Instrument Serif', Georgia, Cambria, 'Times New Roman', Times, serif;
+    --font-mono: 'Space Mono', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+    --font-handwriting: 'Caveat', cursive, serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    font-family: var(--font-sans);
+    background-color: #FBF9F5;
+    color: #191817;
+    margin: 0;
+    padding: 0;
+  }
+
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  a:focus-visible {
+    outline: 2px solid #191817;
+    outline-offset: 3px;
+  }
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+.font-ui {
+  font-family: var(--font-sans);
+}
+
+.font-meta {
+  font-family: var(--font-mono);
+}
+
+.font-handwritten {
+  font-family: var(--font-handwriting);
+}
+
+/* Paper rotation rhythm */
+.paper-item:nth-child(4n+1) {
+  transform: rotate(-1.25deg);
+}
+
+.paper-item:nth-child(4n+2) {
+  transform: rotate(0.9deg);
+}
+
+.paper-item:nth-child(4n+3) {
+  transform: rotate(0.45deg);
+}
+
+.paper-item:nth-child(4n) {
+  transform: rotate(-0.7deg);
+}
+
+.paper-card {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, box-shadow;
+}
+
+.paper-card:hover {
+  transform: translateY(-4px) rotate(0deg) !important;
+  box-shadow: 0 16px 32px -8px rgba(25, 24, 23, 0.08), 0 4px 8px -2px rgba(25, 24, 23, 0.04);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .paper-item, .paper-card, .paper-card:hover {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+@keyframes titipesan-marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-33.333333%);
+  }
+}

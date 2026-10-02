@@ -1,0 +1,6 @@
+{
+  "name": "Titipesan",
+  "description": "Platform editorial untuk menitipkan pesan anonim yang personal, elegan, dan bermakna. Leave something worth remembering.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
